@@ -1,17 +1,17 @@
-import React, {ChangeEvent, MouseEvent,useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, MouseEvent, useState} from "react";
 import {AutoCompleteDataType} from "./data";
 
-export type AutoCompletePropsType={
-    data:AutoCompleteDataType
+export type AutoCompletePropsType = {
+    data: AutoCompleteDataType
 }
-export const AutoComplete:React.FC<AutoCompletePropsType> = ({data}) => {
+export const AutoComplete: React.FC<AutoCompletePropsType> = ({data}) => {
 
     const [suggestions, setSuggestions] = useState<AutoCompleteDataType>([]);
     const [suggestionIndex, setSuggestionIndex] = useState<number>(0);
     const [suggestionsActive, setSuggestionsActive] = useState<boolean>(false);
     const [value, setValue] = useState<string>("");
 
-    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value.toLowerCase();
         setValue(query);
         if (query.length > 1) {
@@ -25,13 +25,14 @@ export const AutoComplete:React.FC<AutoCompletePropsType> = ({data}) => {
         }
     };
 
-    const onClickHandler = (e) => {
+    const onClickHandler = (e: MouseEvent<HTMLLIElement>) => {
         setSuggestions([]);
-        setValue(e.target.innerText);
+        let target=e.target as HTMLLIElement
+        setValue(target.innerText);
         setSuggestionsActive(false);
     };
 
-    const onKeyDownHandler = (e) => {
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         // UP ARROW
         if (e.keyCode === 38) {
             if (suggestionIndex === 0) {
@@ -55,13 +56,34 @@ export const AutoComplete:React.FC<AutoCompletePropsType> = ({data}) => {
     };
 
 
-
+    const Suggestions = () => {
+        return (
+            <ul className="suggestions">
+                {suggestions.map((suggestion, index) => {
+                    return (
+                        <li
+                            className={index === suggestionIndex ? "active" : ""}
+                            key={index}
+                            onClick={onClickHandler}>
+                            {suggestion}
+                        </li>
+                    );
+                })}
+            </ul>
+        );
+    };
 
 
     return (
-        <div className="autocomplete" >
-            <input type="text" onChange={onChangeHandler} onClick={onClickHandler}/>
+        <div className="autocomplete">
+            <input
+                type="text"
+                value={value}
+                onChange={onChangeHandler}
+                onKeyDown={onKeyDownHandler}
+            />
+            {suggestionsActive && <Suggestions/>}
         </div>
     );
-};
 
+};
