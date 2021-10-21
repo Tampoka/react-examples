@@ -1,5 +1,5 @@
 export type AutoCompleteDataType=Array<string>
-export const autoCompleteData:autoCompleteDataType=[
+export const autoCompleteData:AutoCompleteDataType=[
     "Albatross",
     "Alligator",
     "Alpaca",
