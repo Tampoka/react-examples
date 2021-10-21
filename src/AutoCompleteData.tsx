@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, MouseEvent,useState} from "react";
 import {AutoCompleteDataType} from "./data";
 
 export type AutoCompletePropsType={
@@ -25,9 +25,42 @@ export const AutoComplete:React.FC<AutoCompletePropsType> = ({data}) => {
         }
     };
 
+    const onClickHandler = (e) => {
+        setSuggestions([]);
+        setValue(e.target.innerText);
+        setSuggestionsActive(false);
+    };
+
+    const onKeyDownHandler = (e) => {
+        // UP ARROW
+        if (e.keyCode === 38) {
+            if (suggestionIndex === 0) {
+                return;
+            }
+            setSuggestionIndex(suggestionIndex - 1);
+        }
+        // DOWN ARROW
+        else if (e.keyCode === 40) {
+            if (suggestionIndex - 1 === suggestions.length) {
+                return;
+            }
+            setSuggestionIndex(suggestionIndex + 1);
+        }
+        // ENTER
+        else if (e.keyCode === 13) {
+            setValue(suggestions[suggestionIndex]);
+            setSuggestionIndex(0);
+            setSuggestionsActive(false);
+        }
+    };
+
+
+
+
+
     return (
         <div className="autocomplete" >
-            <input type="text" onChange={onChangeHandler}/>
+            <input type="text" onChange={onChangeHandler} onClick={onClickHandler}/>
         </div>
     );
 };
