@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import {AutoComplete} from "./AutoCompleteData";
-import {autoCompleteData} from "./data";
+import {AutoComplete} from "./AutoComplete/AutoCompleteData";
+import {autoCompleteData} from "./AutoComplete/data";
 
 function App() {
     return (

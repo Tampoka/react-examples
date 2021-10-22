@@ -1,5 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, MouseEvent, useState} from "react";
 import {AutoCompleteDataType} from "./data";
+import {Box, List, ListItem, ListItemText, TextField} from "@material-ui/core";
+import s from "../AutoComplete/AutoComplete.module.css"
+
 
 export type AutoCompletePropsType = {
     data: AutoCompleteDataType
@@ -27,7 +30,7 @@ export const AutoComplete: React.FC<AutoCompletePropsType> = ({data}) => {
 
     const onClickHandler = (e: MouseEvent<HTMLLIElement>) => {
         setSuggestions([]);
-        let target=e.target as HTMLLIElement
+        let target = e.target as HTMLLIElement
         setValue(target.innerText);
         setSuggestionsActive(false);
     };
@@ -55,35 +58,38 @@ export const AutoComplete: React.FC<AutoCompletePropsType> = ({data}) => {
         }
     };
 
-
     const Suggestions = () => {
-        return (
-            <ul className="suggestions">
-                {suggestions.map((suggestion, index) => {
-                    return (
-                        <li
-                            className={index === suggestionIndex ? "active" : ""}
-                            key={index}
-                            onClick={onClickHandler}>
-                            {suggestion}
-                        </li>
-                    );
-                })}
-            </ul>
+        return (<div>
+                <List className={s.suggestions} >
+                    {suggestions.map((suggestion, index) => {
+                        return (
+                            <ListItem
+                                className={index === suggestionIndex ? s.active : s.item}
+                                key={index}
+                                onClick={onClickHandler}>
+                                {suggestion}
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </div>
         );
     };
 
 
     return (
-        <div className="autocomplete">
-            <input
-                type="text"
+        <Box className={s.autocomplete}>
+            <TextField
                 value={value}
                 onChange={onChangeHandler}
                 onKeyDown={onKeyDownHandler}
-            />
-            {suggestionsActive && <Suggestions/>}
-        </div>
+                label="Search animal"
+                type="search"
+                variant="filled"
+                />
+                {suggestionsActive && <Suggestions/>}
+
+        </Box>
     );
 
 };
