@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import {Router} from "react-router-dom";
-import routes from "./Sidebar_Navigation/routes";
-import { createBrowserHistory } from "history"
+import {createBrowserHistory} from "history"
+import App from "./App";
 
 
 const history=createBrowserHistory()
 ReactDOM.render(
   <React.StrictMode>
-      <Router history={history}>{routes}</Router>
+      <Router history={history}><App/></Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

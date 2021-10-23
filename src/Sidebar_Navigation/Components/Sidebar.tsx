@@ -1,19 +1,21 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import {Path} from "../routes";
+import s from "./Sidebar.module.css"
 
 
 function Sidebar() {
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
     return (
-        <nav className={sidebar ? "sidebar active" : "sidebar"}>
-            <button className="hamburger" type="button" onClick={showSidebar}>
+        <nav className={sidebar ? s.sidebar+s.active : s.sidebar}>
+            <button className={s.hamburger} type="button" onClick={showSidebar}>
                 <div></div>
             </button>
             <ul onClick={showSidebar}>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/services">Services</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
+                <li><NavLink to={Path.home}>Home</NavLink></li>
+                <li><NavLink to={Path.services}>Services</NavLink></li>
+                <li><NavLink to={Path.contacts}>Contact</NavLink></li>
             </ul>
         </nav>
     );
